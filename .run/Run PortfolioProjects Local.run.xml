@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run PortfolioProjects Local" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <envs>
+      <env name="DB_URL" value="jdbc:postgresql://localhost:5432/portfolio_projects_db" />
+      <env name="DB_USERNAME" value="portfolio_projects_user" />
+      <env name="DB_PASSWORD" value="portfolio_projects_password" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="br.com.desafio.portfolioprojects.PortfolioProjectsApplication" />
+    <module name="portfolio-projects" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="br.com.desafio.portfolioprojects.PortfolioProjectsApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

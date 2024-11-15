@@ -1,4 +1,4 @@
-package br.com.desafio.portfolio_projects;
+package br.com.desafio.portfolioprojects;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

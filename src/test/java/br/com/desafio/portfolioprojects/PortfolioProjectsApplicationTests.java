@@ -1,4 +1,4 @@
-package br.com.desafio.portfolio_projects;
+package br.com.desafio.portfolioprojects;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

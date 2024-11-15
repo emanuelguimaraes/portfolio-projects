@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'br.com.desafio.portfolio-projects' is invalid and this project uses 'br.com.desafio.portfolio_projects' instead.
+* The original package name 'br.com.desafio.portfolio-projects' is invalid and this project uses 'br.com.desafio.portfolioprojects' instead.
 
 # Getting Started
 
