@@ -1,15 +1,20 @@
 package br.com.desafio.portfolioprojects.controllers;
 
 import br.com.desafio.portfolioprojects.dto.ProjetoDTO;
+import br.com.desafio.portfolioprojects.models.Pessoa;
 import br.com.desafio.portfolioprojects.models.Projeto;
+import br.com.desafio.portfolioprojects.models.enums.ClassificacaoRisco;
+import br.com.desafio.portfolioprojects.models.enums.StatusProjeto;
+import br.com.desafio.portfolioprojects.services.PessoaService;
 import br.com.desafio.portfolioprojects.services.ProjetoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -18,23 +23,29 @@ import java.util.List;
 public class ProjetoController {
 
     private final ProjetoService service;
+    private final PessoaService pessoaService;
 
     @Autowired
-    public ProjetoController(ProjetoService service) {
+    public ProjetoController(ProjetoService service, PessoaService pessoaService) {
         this.service = service;
+        this.pessoaService = pessoaService;
     }
 
-//    @PostMapping
-//    public ResponseEntity<Projeto> criarProjeto(@Valid @RequestBody ProjetoDTO projetoDTO) {
-//        return ResponseEntity
-//            .status(HttpStatus.CREATED)
-//            .body(service.salvar(projetoDTO));
-//    }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Projeto> buscarProjetoPorId(@PathVariable Long id) {
-//        return ResponseEntity.ok(service.buscarPorId(id));
-//    }
+    @PostMapping("/salvar")
+    public String criarProjeto(@Valid @ModelAttribute("projetoDTO") ProjetoDTO projetoDTO,
+        BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("pessoas", pessoaService.listarTodos());
+            model.addAttribute("classificacoesRisco", ClassificacaoRisco.values());
+            model.addAttribute("statusProjeto", StatusProjeto.values());
+            return "projeto/form";
+        }
+
+        service.salvar(projetoDTO);
+        redirectAttributes.addFlashAttribute("mensagemSucesso", "Projeto criado com sucesso!");
+        return "redirect:/projetos";
+    }
 
     @GetMapping
     public String listarProjetos(Model model) {
@@ -43,19 +54,58 @@ public class ProjetoController {
         return "projeto/lista";
     }
 
-//    @GetMapping
-//    public List<Projeto> listarProjetos() {
-//        return service.listarTodos();
-//    }
-//
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Projeto> atualizarProjeto(@PathVariable Long id, @Valid @RequestBody ProjetoDTO projetoDTO) {
-//        return ResponseEntity.ok(service.atualizar(id, projetoDTO));
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<String> excluirProjeto(@PathVariable Long id) {
-//        service.excluir(id);
-//        return ResponseEntity.ok("Projeto excluído com sucesso.");
-//    }
+    @GetMapping("/novo")
+    public String exibirFormularioCadastro(Model model) {
+        model.addAttribute("projetoDTO", new ProjetoDTO());
+        model.addAttribute("pessoas", pessoaService.listarTodos());
+        model.addAttribute("classificacoesRisco", ClassificacaoRisco.values());
+        model.addAttribute("statusProjeto", StatusProjeto.values());
+        return "projeto/form";
+    }
+
+    @GetMapping("/{id}")
+    public String exibirProjeto(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+        Projeto projeto = service.buscarPorId(id);
+        List<Pessoa> pessoasDisponiveis = pessoaService.listarTodos();
+        pessoasDisponiveis.removeAll(projeto.getMembros());
+
+        model.addAttribute("projeto", projeto);
+        model.addAttribute("pessoasDisponiveis", pessoasDisponiveis);
+        return "projeto/detalhes";
+    }
+
+    @GetMapping("/editar/{id}")
+    public String exibirFormularioEdicao(@PathVariable Long id, Model model) {
+        Projeto projeto = service.buscarPorId(id);
+        model.addAttribute("projetoDTO", projeto);
+        model.addAttribute("pessoas", pessoaService.listarTodos());
+        model.addAttribute("classificacoesRisco", ClassificacaoRisco.values());
+        model.addAttribute("statusProjeto", StatusProjeto.values());
+        return "projeto/form";
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Projeto> atualizarProjeto(@PathVariable Long id, @Valid @RequestBody ProjetoDTO projetoDTO) {
+        return ResponseEntity.ok(service.atualizar(id, projetoDTO));
+    }
+
+    @PostMapping("/{projetoId}/pessoas/{pessoaId}")
+    public String adicionarPessoaAoProjeto(@PathVariable Long projetoId, @PathVariable Long pessoaId, RedirectAttributes redirectAttributes) {
+        try {
+            service.adicionarPessoaAoProjeto(projetoId, pessoaId);
+            redirectAttributes.addFlashAttribute("mensagemSucesso", "Pessoa adicionada ao projeto com sucesso!");
+
+        } catch (RuntimeException ex) {
+            redirectAttributes.addFlashAttribute("mensagemErro", ex.getMessage());
+        }
+
+        return "redirect:/projetos/" + projetoId;
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    public ResponseEntity<String> excluirProjeto(@PathVariable Long id) {
+        service.excluir(id);
+        return ResponseEntity.ok("Projeto excluído com sucesso.");
+    }
 }

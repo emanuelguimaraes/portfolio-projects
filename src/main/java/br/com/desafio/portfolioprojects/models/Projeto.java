@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -27,13 +27,13 @@ public class Projeto {
     private String nome;
 
     @Column(name = "data_inicio")
-    private LocalDate dataInicio;
+    private Date dataInicio;
 
     @Column(name = "data_previsao_fim")
-    private LocalDate previsaoTermino;
+    private Date previsaoTermino;
 
     @Column(name = "data_fim")
-    private LocalDate dataRealTermino;
+    private Date dataRealTermino;
 
     @Column(length = 5000)
     private String descricao;

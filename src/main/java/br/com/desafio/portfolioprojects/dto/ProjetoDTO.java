@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 @Builder
@@ -23,13 +23,13 @@ public class ProjetoDTO {
     private String nome;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dataInicio;
+    private Date dataInicio;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate previsaoTermino;
+    private Date previsaoTermino;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dataRealTermino;
+    private Date dataRealTermino;
 
     private String descricao;
 
