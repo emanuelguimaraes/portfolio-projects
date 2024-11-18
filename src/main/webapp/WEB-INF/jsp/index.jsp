@@ -29,11 +29,9 @@
     </div>
 </nav>
 
-
 <div class="container mt-5">
     <h1>Bem-vindo ao Portfolio Projects</h1>
     <p>Este é o sistema de gerenciamento de portfólio de projetos.</p>
-
     <div class="row mt-4">
         <div class="col-md-6">
             <div class="card">
@@ -55,7 +53,6 @@
         </div>
     </div>
 </div>
-
 
 <script src="<c:url value="/webjars/jquery/3.5.1/jquery.min.js"/>"></script>
 <script src="<c:url value="/webjars/popper.js/1.16.0/umd/popper.min.js"/>"></script>

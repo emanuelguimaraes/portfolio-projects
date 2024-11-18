@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -23,12 +22,6 @@ public class Pessoa {
 
     @Column(nullable = false)
     private String nome;
-
-    @Column
-    private LocalDate dataNascimento;
-
-    @Column
-    private String cpf;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

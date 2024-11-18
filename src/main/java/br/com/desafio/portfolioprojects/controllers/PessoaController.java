@@ -7,11 +7,13 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/pessoas")
 public class PessoaController {
 
@@ -22,27 +24,21 @@ public class PessoaController {
         this.service = service;
     }
 
+    @GetMapping
+    public String listarPessoas(Model model) {
+        List<Pessoa> pessoas = service.listarTodos();
+        model.addAttribute("pessoas", pessoas);
+        return "pessoa/lista";
+    }
+
     @PostMapping
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Pessoa> criarPessoa(@Valid @RequestBody PessoaDTO pessoaDTO) {
         Pessoa novaPessoa = service.criarPessoaExterna(pessoaDTO);
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(novaPessoa);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Pessoa> buscarPessoaPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(service.buscarPorId(id));
-    }
-
-    @GetMapping
-    public List<Pessoa> listarPessoas() {
-        return service.listarTodos();
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Pessoa> atualizarPessoa(@PathVariable Long id, @Valid @RequestBody PessoaDTO pessoaDTO) {
-        return ResponseEntity.ok(service.atualizarPessoa(id, pessoaDTO));
     }
 
     @DeleteMapping("/{id}")
