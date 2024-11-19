@@ -77,7 +77,8 @@ public class ProjetoController {
     @GetMapping("/editar/{id}")
     public String exibirFormularioEdicao(@PathVariable Long id, Model model) {
         Projeto projeto = service.buscarPorId(id);
-        model.addAttribute("projetoDTO", projeto);
+        model.addAttribute("projetoID", projeto.getId());
+        model.addAttribute("projetoDTO", new ProjetoDTO(projeto));
         model.addAttribute("pessoas", pessoaService.listarTodos());
         model.addAttribute("classificacoesRisco", ClassificacaoRisco.values());
         model.addAttribute("statusProjeto", StatusProjeto.values());
@@ -85,6 +86,7 @@ public class ProjetoController {
     }
 
     @PutMapping("/{id}")
+    @ResponseBody
     public ResponseEntity<Projeto> atualizarProjeto(@PathVariable Long id, @Valid @RequestBody ProjetoDTO projetoDTO) {
         return ResponseEntity.ok(service.atualizar(id, projetoDTO));
     }

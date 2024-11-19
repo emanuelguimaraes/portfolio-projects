@@ -1,5 +1,6 @@
 package br.com.desafio.portfolioprojects.dto;
 
+import br.com.desafio.portfolioprojects.models.Projeto;
 import br.com.desafio.portfolioprojects.models.enums.ClassificacaoRisco;
 import br.com.desafio.portfolioprojects.models.enums.StatusProjeto;
 import jakarta.validation.constraints.NotBlank;
@@ -18,6 +19,18 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProjetoDTO {
+
+    public ProjetoDTO(Projeto projeto) {
+        this.nome = projeto.getNome();
+        this.dataInicio = projeto.getDataInicio();
+        this.previsaoTermino = projeto.getPrevisaoTermino();
+        this.dataRealTermino = projeto.getDataRealTermino();
+        this.descricao = projeto.getDescricao();
+        this.status = projeto.getStatus();
+        this.orcamento = projeto.getOrcamento();
+        this.risco = projeto.getRisco();
+        this.gerenteId = projeto.getGerente().getId();
+    }
 
     @NotBlank(message = "O nome é obrigatório")
     private String nome;

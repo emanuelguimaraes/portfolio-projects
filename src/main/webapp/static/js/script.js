@@ -4,26 +4,27 @@ function excluirProjeto(id) {
             url: '/projetos/' + id,
             type: 'DELETE',
             success: function(result) {
-                $('#projeto-' + id).remove();
-                alert(result)
+                localStorage.setItem('mensagemSucesso', result)
+                window.location.href = '/projetos'
             },
             error: function(error) {
-                alert(error.responseJSON.message)
+                localStorage.setItem('mensagemErro', error.responseJSON.message)
+                window.location.href = '/projetos'
             }
         });
     }
 }
 
 function atualizarProjeto(id) {
-    const nome = $('#nome').val();
-    const dataInicio = $('#dataInicio').val();
-    const previsaoTermino = $('#previsaoTermino').val();
-    const dataRealTermino = $('#dataRealTermino').val();
-    const orcamento = $('#orcamento').val();
-    const descricao = $('#descricao').val();
-    const status = $('#status').val();
-    const risco = $('#risco').val();
-    const gerenteId = $('#gerente').val();
+    const nome = $('#nome').val()
+    const dataInicio = $('#dataInicio').val()
+    const previsaoTermino = $('#previsaoTermino').val()
+    const dataRealTermino = $('#dataRealTermino').val()
+    const orcamento = $('#orcamento').val()
+    const descricao = $('#descricao').val()
+    const status = $('#status').val()
+    const risco = $('#risco').val()
+    const gerenteId = $('#gerente').val()
 
     const projeto = {
         nome: nome,
@@ -35,31 +36,48 @@ function atualizarProjeto(id) {
         status: status,
         risco: risco,
         gerenteId: gerenteId
-
     };
 
     $.ajax({
-        url: '/api/projetos/' + id,
+        url: '/projetos/' + id,
         type: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify(projeto),
         success: function (result) {
-
-            alert("Projeto atualizado com sucesso!");
-            window.location.href = "/projetos/" + id;
+            localStorage.setItem('mensagemSucesso', 'Projeto atualizado com sucesso!')
+            window.location.href = '/projetos'
         },
         error: function (error) {
             if (error.responseJSON && error.responseJSON.errors) {
-                const errors = error.responseJSON.errors;
-                let errorMessage = "";
+                const errors = error.responseJSON.errors
+                let errorMessage = ""
                 for (const field in errors) {
-                    errorMessage += errors[field] + "\n";
+                    errorMessage += errors[field] + "\n"
                 }
-                alert(errorMessage);
+                localStorage.setItem('mensagemErro', errorMessage)
             }
             else {
-                alert(error.responseJSON.message);
+                localStorage.setItem('mensagemErro', error.responseJSON.message)
             }
+            window.location.href = '/projetos'
         }
     });
+}
+
+function exibirMensagemSucesso() {
+    const mensagemSucesso = localStorage.getItem('mensagemSucesso')
+    if (mensagemSucesso) {
+        const mensagemDiv = $('<div class="alert alert-success" role="alert">' + mensagemSucesso + '</div>')
+        $('.container').prepend(mensagemDiv)
+        localStorage.removeItem('mensagemSucesso')
+    }
+}
+
+function exibirMensagemErro() {
+    const mensagemErro = localStorage.getItem('mensagemErro')
+    if (mensagemErro) {
+        const mensagemDiv = $('<div class="alert alert-danger" role="alert">' + mensagemErro + '</div>')
+        $('.container').prepend(mensagemDiv)
+        localStorage.removeItem('mensagemErro')
+    }
 }

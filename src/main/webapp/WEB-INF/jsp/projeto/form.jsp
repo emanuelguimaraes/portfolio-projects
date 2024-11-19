@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -33,10 +33,10 @@
     <h1>Formulário de Projeto</h1>
     <form:errors path="*" cssClass="alert alert-danger" element="div"/>
     <c:choose>
-        <c:when test="${projeto.id != null}">
-            <form:form method="post" action="/projetos/${projeto.id}" modelAttribute="projeto">
+        <c:when test="${projetoID != null}">
+            <form:form method="post" action="/projetos/${projetoID}" modelAttribute="projetoDTO">
                 <%@include file="form_fields.jsp"%>
-                <button type="button" class="btn btn-primary" onclick="atualizarProjeto(${projeto.id})">Atualizar</button>
+                <button type="button" class="btn btn-primary" onclick="atualizarProjeto(${projetoID})">Atualizar</button>
             </form:form>
         </c:when>
         <c:otherwise>
@@ -52,6 +52,6 @@
 <script src="<c:url value="/webjars/jquery/3.5.1/jquery.min.js"/>"></script>
 <script src="<c:url value="/webjars/popper.js/1.16.0/umd/popper.min.js"/>"></script>
 <script src="<c:url value="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"/>"></script>
-<script src="<c:url value="/src/main/webapp/static/js/script.js"/>"></script>
+<script src="<c:url value="/static/js/script.js"/>"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> <%-- Import fmt para formatação de datas --%>
 <!DOCTYPE html>
@@ -79,6 +79,10 @@
 <script src="<c:url value="/webjars/jquery/3.5.1/jquery.min.js"/>"></script>
 <script src="<c:url value="/webjars/popper.js/1.16.0/umd/popper.min.js"/>"></script>
 <script src="<c:url value="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"/>"></script>
-<script src="<c:url value="/src/main/webapp/static/js/script.js"/>"></script>
+<script src="<c:url value="/static/js/script.js"/>"></script>
+<script>
+    window.addEventListener('load', exibirMensagemSucesso);
+    window.addEventListener('load', exibirMensagemErro);
+</script>
 </body>
 </html>
