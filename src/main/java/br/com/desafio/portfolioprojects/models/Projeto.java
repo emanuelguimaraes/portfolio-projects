@@ -59,4 +59,12 @@ public class Projeto {
         inverseJoinColumns = @JoinColumn(name = "pessoa_id")
     )
     private List<Pessoa> membros;
+
+    public void adicionarMembro(Pessoa pessoa) {
+        this.membros.add(pessoa);
+    }
+
+    public void removerMembro(Pessoa pessoa) {
+        this.membros.remove(pessoa);
+    }
 }

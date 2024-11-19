@@ -91,17 +91,23 @@ public class ProjetoController {
         return ResponseEntity.ok(service.atualizar(id, projetoDTO));
     }
 
-    @PostMapping("/{projetoId}/pessoas/{pessoaId}")
-    public String adicionarPessoaAoProjeto(@PathVariable Long projetoId, @PathVariable Long pessoaId, RedirectAttributes redirectAttributes) {
+    @PostMapping("/{projetoId}/membro")
+    public String adicionarMembroAoProjeto(@PathVariable Long projetoId, @RequestParam Long pessoaId, RedirectAttributes redirectAttributes) {
         try {
-            service.adicionarPessoaAoProjeto(projetoId, pessoaId);
-            redirectAttributes.addFlashAttribute("mensagemSucesso", "Pessoa adicionada ao projeto com sucesso!");
+            service.adicionarMembroAoProjeto(projetoId, pessoaId);
+            redirectAttributes.addFlashAttribute("mensagemSucesso", "Membro adicionado ao projeto com sucesso!");
 
         } catch (RuntimeException ex) {
             redirectAttributes.addFlashAttribute("mensagemErro", ex.getMessage());
         }
 
         return "redirect:/projetos/" + projetoId;
+    }
+
+    @DeleteMapping("/{projetoId}/membro/{pessoaId}")
+    public ResponseEntity<String> removerMembroProjeto(@PathVariable Long projetoId, @PathVariable Long pessoaId) {
+        service.removerMembroProjeto(projetoId, pessoaId);
+        return ResponseEntity.ok("Membro removido do projeto com sucesso!");
     }
 
     @DeleteMapping("/{id}")

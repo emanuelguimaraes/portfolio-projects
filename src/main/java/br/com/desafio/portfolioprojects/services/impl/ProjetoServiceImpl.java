@@ -1,10 +1,7 @@
 package br.com.desafio.portfolioprojects.services.impl;
 
 import br.com.desafio.portfolioprojects.dto.ProjetoDTO;
-import br.com.desafio.portfolioprojects.exceptions.GerenteNaoEncontradoException;
-import br.com.desafio.portfolioprojects.exceptions.PessoaNaoPodeSerAdicionadaAoProjetoException;
-import br.com.desafio.portfolioprojects.exceptions.ProjetoNaoEncontradoException;
-import br.com.desafio.portfolioprojects.exceptions.ProjetoNaoPodeSerExcluidoException;
+import br.com.desafio.portfolioprojects.exceptions.*;
 import br.com.desafio.portfolioprojects.models.Pessoa;
 import br.com.desafio.portfolioprojects.models.Projeto;
 import br.com.desafio.portfolioprojects.models.enums.Atribuicao;
@@ -93,15 +90,29 @@ public class ProjetoServiceImpl implements ProjetoService {
 
     @Override
     @Transactional
-    public void adicionarPessoaAoProjeto(Long projetoId, Long pessoaId) {
+    public void adicionarMembroAoProjeto(Long projetoId, Long pessoaId) {
         Projeto projeto = buscarPorId(projetoId);
         Pessoa pessoa = pessoaService.buscarPorId(pessoaId);
 
-        if (Atribuicao.FUNCIONARIO.equals(pessoa.getAtribuicao())) {
+        if (Atribuicao.GERENTE.equals(pessoa.getAtribuicao())) {
             throw new PessoaNaoPodeSerAdicionadaAoProjetoException("Somente funcionários podem ser adicionados ao projeto.");
         }
 
-        projeto.getMembros().add(pessoa);
+        projeto.adicionarMembro(pessoa);
+        salvar(projeto);
+    }
+
+    @Override
+    @Transactional
+    public void removerMembroProjeto(Long projetoId, Long pessoaId) {
+        Projeto projeto = buscarPorId(projetoId);
+        Pessoa pessoa = pessoaService.buscarPorId(pessoaId);
+
+        if (Atribuicao.GERENTE.equals(pessoa.getAtribuicao())) {
+            throw new GerenteNaoPodeSerExcluidoException("Não é possível remover o gerente do projeto");
+        }
+
+        projeto.removerMembro(pessoa);
         salvar(projeto);
     }
 

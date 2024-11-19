@@ -1,7 +1,7 @@
 function excluirProjeto(id) {
     if (confirm('Tem certeza que deseja excluir este projeto?')) {
         $.ajax({
-            url: '/projetos/' + id,
+            url: `/projetos/${id}`,
             type: 'DELETE',
             success: function(result) {
                 localStorage.setItem('mensagemSucesso', result)
@@ -39,7 +39,7 @@ function atualizarProjeto(id) {
     };
 
     $.ajax({
-        url: '/projetos/' + id,
+        url: `/projetos/${id}`,
         type: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify(projeto),
@@ -62,6 +62,23 @@ function atualizarProjeto(id) {
             window.location.href = '/projetos'
         }
     });
+}
+
+function removerMembro(projetoId, pessoaId) {
+    if (confirm('Tem certeza que deseja remover este membro?')) {
+        $.ajax({
+            url: `/projetos/${projetoId}/membro/${pessoaId}`,
+            type: 'DELETE',
+            success: function(result) {
+                localStorage.setItem('mensagemSucesso', result)
+                window.location.href = `/projetos/${projetoId}`
+            },
+            error: function(error) {
+                localStorage.setItem('mensagemErro', error.responseJSON.message)
+                window.location.href = '/projetos'
+            }
+        });
+    }
 }
 
 function exibirMensagemSucesso() {

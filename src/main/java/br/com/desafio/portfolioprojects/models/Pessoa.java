@@ -7,8 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Entity
 @Data
 @Builder
@@ -26,7 +24,4 @@ public class Pessoa {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Atribuicao atribuicao;
-
-    @ManyToMany(mappedBy = "membros")
-    private List<Projeto> projetos;
 }
