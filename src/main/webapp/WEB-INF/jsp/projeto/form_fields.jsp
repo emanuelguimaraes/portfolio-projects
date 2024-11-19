@@ -36,14 +36,14 @@
 <div class="form-group">
     <form:label path="status">Status</form:label>
     <form:select path="status" cssClass="form-control" id="status">
-        <form:options items="${statusProjeto}" />
+        <form:options items="${statusProjeto}" itemLabel="label" />
     </form:select>
     <form:errors path="status" cssClass="text-danger"/>
 </div>
 <div class="form-group">
     <form:label path="risco">Risco</form:label>
     <form:select path="risco" cssClass="form-control" id="risco">
-        <form:options items="${classificacoesRisco}" />
+        <form:options items="${classificacoesRisco}" itemLabel="label" />
     </form:select>
     <form:errors path="risco" cssClass="text-danger"/>
 </div>
@@ -51,7 +51,7 @@
     <form:label path="gerenteId">Gerente</form:label>
     <form:select path="gerenteId" cssClass="form-control" id="gerente">
         <form:option value="">Selecione um gerente</form:option>
-        <form:options items="${pessoas}" itemValue="id" itemLabel="nome"/>
+        <form:options items="${gerentes}" itemValue="id" itemLabel="nome"/>
     </form:select>
     <form:errors path="gerenteId" cssClass="text-danger"/>
 </div>

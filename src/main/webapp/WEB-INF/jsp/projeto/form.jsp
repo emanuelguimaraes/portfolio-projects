@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário de Projeto</title>
     <link rel="stylesheet" href="<c:url value="/webjars/bootstrap/4.5.2/css/bootstrap.min.css"/>">
+    <link rel="stylesheet" href="<c:url value="/static/css/style.css"/>"/>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -36,18 +37,27 @@
         <c:when test="${projetoID != null}">
             <form:form method="post" action="/projetos/${projetoID}" modelAttribute="projetoDTO">
                 <%@include file="form_fields.jsp"%>
-                <button type="button" class="btn btn-primary" onclick="atualizarProjeto(${projetoID})">Atualizar</button>
+                <div class="button-container d-flex justify-content-end mt-3">
+                    <a href="/projetos" class="btn btn-secondary mr-2">Voltar</a>
+                    <button type="button" class="btn btn-primary" onclick="atualizarProjeto(${projetoID})">Atualizar</button>
+                </div>
             </form:form>
         </c:when>
         <c:otherwise>
             <form:form method="post" action="/projetos/salvar" modelAttribute="projetoDTO">
                 <%@include file="form_fields.jsp"%>
-                <button type="submit" class="btn btn-primary">Salvar</button>
+                <div class="button-container d-flex justify-content-end mt-3">
+                    <a href="/projetos" class="btn btn-secondary mr-2">Voltar</a>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
             </form:form>
         </c:otherwise>
     </c:choose>
-    <a href="/projetos" class="btn btn-secondary mt-3">Voltar</a>
 </div>
+
+<footer class="bg-light py-3 text-center">
+    <p>© 2024 Portfolio Projects. Todos os direitos reservados.</p>
+</footer>
 
 <script src="<c:url value="/webjars/jquery/3.5.1/jquery.min.js"/>"></script>
 <script src="<c:url value="/webjars/popper.js/1.16.0/umd/popper.min.js"/>"></script>

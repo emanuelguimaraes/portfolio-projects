@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class Projeto {
         joinColumns = @JoinColumn(name = "projeto_id"),
         inverseJoinColumns = @JoinColumn(name = "pessoa_id")
     )
-    private List<Pessoa> membros;
+    private List<Pessoa> membros = new ArrayList<>();
 
     public void adicionarMembro(Pessoa pessoa) {
         this.membros.add(pessoa);

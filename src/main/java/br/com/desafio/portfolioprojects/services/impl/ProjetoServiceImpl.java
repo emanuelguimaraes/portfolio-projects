@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,6 +31,9 @@ public class ProjetoServiceImpl implements ProjetoService {
     @Override
     @Transactional
     public Projeto salvar(Projeto projeto) {
+        if (!projeto.getMembros().contains(projeto.getGerente())) {
+            projeto.adicionarMembro(projeto.getGerente());
+        }
         return repository.save(projeto);
     }
 
@@ -85,6 +89,9 @@ public class ProjetoServiceImpl implements ProjetoService {
             throw new ProjetoNaoPodeSerExcluidoException("O projeto não pode ser excluído pois já foi iniciado, está em andamento ou foi encerrado.");
         }
 
+        projeto.getMembros().clear();
+        repository.save(projeto);
+
         repository.deleteById(id);
     }
 
@@ -129,6 +136,7 @@ public class ProjetoServiceImpl implements ProjetoService {
             .orcamento(projetoDTO.getOrcamento())
             .risco(projetoDTO.getRisco())
             .gerente(gerente)
+            .membros(new ArrayList<>())
             .build();
     }
 }

@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes do Projeto</title>
     <link rel="stylesheet" href="<c:url value="/webjars/bootstrap/4.5.2/css/bootstrap.min.css"/>">
+    <link rel="stylesheet" href="<c:url value="/static/css/style.css"/>"/>
 </head>
 <body>
 
@@ -29,7 +30,14 @@
 </nav>
 
 <div class="container mt-5">
-    <h1>Detalhes do Projeto</h1>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Detalhes do Projeto</h1>
+        <div>
+            <a href="/projetos" class="btn btn-secondary">Voltar</a>
+            <a href="/projetos/editar/${projeto.id}" class="btn btn-warning">Editar</a>
+            <button type="button" class="btn btn-danger" onclick="excluirProjeto(${projeto.id})">Excluir</button>
+        </div>
+    </div>
     <c:if test="${not empty mensagemSucesso}">
         <div class="alert alert-success" role="alert">
                 ${mensagemSucesso}
@@ -41,8 +49,6 @@
         </div>
     </c:if>
     <dl class="row">
-        <dt class="col-sm-3">ID:</dt>
-        <dd class="col-sm-9">${projeto.id}</dd>
         <dt class="col-sm-3">Nome:</dt>
         <dd class="col-sm-9">${projeto.nome}</dd>
         <dt class="col-sm-3">Data de Início:</dt>
@@ -56,14 +62,19 @@
         <dt class="col-sm-3">Descrição:</dt>
         <dd class="col-sm-9">${projeto.descricao}</dd>
         <dt class="col-sm-3">Status:</dt>
-        <dd class="col-sm-9">${projeto.status}</dd>
+        <dd class="col-sm-9">${projeto.status.label}</dd>
         <dt class="col-sm-3">Risco:</dt>
-        <dd class="col-sm-9">${projeto.risco}</dd>
+        <dd class="col-sm-9">${projeto.risco.label}</dd>
         <dt class="col-sm-3">Gerente:</dt>
         <dd class="col-sm-9">${projeto.gerente.nome}</dd>
     </dl>
-    <h2>Membros do Projeto</h2>
-    <table class="table table-striped">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Membros do Projeto</h2>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAdicionarMembro">
+            Adicionar Membro
+        </button>
+    </div>
+    <table class="table table-striped" id="tabelaMembros">
         <thead>
         <tr>
             <th>Nome</th>
@@ -75,34 +86,26 @@
         <c:forEach var="membro" items="${projeto.membros}">
             <tr>
                 <td>${membro.nome}</td>
-                <td>${membro.atribuicao}</td>
+                <td>${membro.atribuicao.label}</td>
                 <td>
                     <div style="display: inline;">
-                        <button type="button" class="btn btn-sm btn-danger" onclick="removerMembro(${projeto.id}, ${membro.id})">Remover</button>
+                        <button type="button" class="btn btn-sm btn-danger"
+                                onclick="removerMembro(${projeto.id}, ${membro.id})"
+                                <c:if test="${membro.atribuicao == 'GERENTE'}">disabled</c:if> >
+                            Remover
+                        </button>
                     </div>
                 </td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
-    <h2>Adicionar Membro ao Projeto</h2>
-    <form action="/projetos/${projeto.id}/membro" method="post">
-        <div class="form-group">
-            <label for="pessoaId">Pessoa:</label>
-            <select name="pessoaId" id="pessoaId" class="form-control">
-                <c:forEach items="${pessoasDisponiveis}" var="pessoa">
-                    <option value="${pessoa.id}">${pessoa.nome} (${pessoa.atribuicao})</option>
-                </c:forEach>
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Adicionar</button>
-    </form>
-    <a href="/projetos" class="btn btn-secondary mt-3">Voltar</a>
-    <a href="/projetos/editar/${projeto.id}" class="btn btn-warning mt-3">Editar</a>
-    <div style="display: inline;">
-        <button type="button" class="btn btn-sm btn-danger mt-3" onclick="excluirProjeto(${projeto.id})">Excluir</button>
-    </div>
+    <jsp:include page="modal_adicionar_membro.jsp"/>
 </div>
+
+<footer class="bg-light py-3 text-center">
+    <p>© 2024 Portfolio Projects. Todos os direitos reservados.</p>
+</footer>
 
 <script src="<c:url value="/webjars/jquery/3.5.1/jquery.min.js"/>"></script>
 <script src="<c:url value="/webjars/popper.js/1.16.0/umd/popper.min.js"/>"></script>

@@ -66,4 +66,16 @@ public class PessoaServiceImpl implements PessoaService {
 
         return repository.save(pessoaExistente);
     }
+
+    @Override
+    @Transactional
+    public List<Pessoa> listarTodosGerentes() {
+        return repository.findAllByAtribuicao(Atribuicao.GERENTE);
+    }
+
+    @Override
+    @Transactional
+    public List<Pessoa> listarTodosFuncionarios() {
+        return repository.findAllByAtribuicao(Atribuicao.FUNCIONARIO);
+    }
 }

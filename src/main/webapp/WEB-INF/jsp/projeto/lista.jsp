@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Projetos</title>
     <link rel="stylesheet" href="<c:url value="/webjars/bootstrap/4.5.2/css/bootstrap.min.css"/>">
+    <link rel="stylesheet" href="<c:url value="/static/css/style.css"/>"/>
 </head>
 <body>
 
@@ -30,7 +31,10 @@
 </nav>
 
 <div class="container mt-5">
-    <h1>Lista de Projetos</h1>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Lista de Projetos</h1>
+        <a href="/projetos/novo" class="btn btn-primary mb-3">Novo Projeto</a>
+    </div>
     <c:if test="${not empty mensagemSucesso}">
         <div class="alert alert-success" role="alert">
                 ${mensagemSucesso}
@@ -41,11 +45,9 @@
                 ${mensagemErro}
         </div>
     </c:if>
-    <a href="/projetos/novo" class="btn btn-primary mb-3">Novo Projeto</a>
-    <table class="table table-striped">
+    <table class="table table-striped" id="tabelaProjetos">
         <thead>
         <tr>
-            <th>ID</th>
             <th>Nome</th>
             <th>Data de Início</th>
             <th>Previsão de Término</th>
@@ -58,12 +60,11 @@
         <tbody>
         <c:forEach var="projeto" items="${projetos}">
             <tr id="projeto-${projeto.id}">
-                <td>${projeto.id}</td>
                 <td>${projeto.nome}</td>
                 <td><fmt:formatDate value="${projeto.dataInicio}" pattern="dd/MM/yyyy"/></td>
                 <td><fmt:formatDate value="${projeto.previsaoTermino}" pattern="dd/MM/yyyy"/></td>
                 <td><fmt:formatDate value="${projeto.dataRealTermino}" pattern="dd/MM/yyyy"/></td>
-                <td>${projeto.status}</td>
+                <td>${projeto.status.label}</td>
                 <td>${projeto.gerente.nome}</td>
                 <td>
                     <a href="/projetos/${projeto.id}" class="btn btn-sm btn-info">Detalhes</a>
@@ -75,6 +76,10 @@
         </tbody>
     </table>
 </div>
+
+<footer class="bg-light py-3 text-center">
+    <p>© 2024 Portfolio Projects. Todos os direitos reservados.</p>
+</footer>
 
 <script src="<c:url value="/webjars/jquery/3.5.1/jquery.min.js"/>"></script>
 <script src="<c:url value="/webjars/popper.js/1.16.0/umd/popper.min.js"/>"></script>

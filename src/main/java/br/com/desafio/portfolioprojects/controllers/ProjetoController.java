@@ -36,7 +36,7 @@ public class ProjetoController {
         BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("pessoas", pessoaService.listarTodos());
+            model.addAttribute("pessoas", pessoaService.listarTodosFuncionarios());
             model.addAttribute("classificacoesRisco", ClassificacaoRisco.values());
             model.addAttribute("statusProjeto", StatusProjeto.values());
             return "projeto/form";
@@ -44,6 +44,7 @@ public class ProjetoController {
 
         service.salvar(projetoDTO);
         redirectAttributes.addFlashAttribute("mensagemSucesso", "Projeto criado com sucesso!");
+
         return "redirect:/projetos";
     }
 
@@ -51,26 +52,29 @@ public class ProjetoController {
     public String listarProjetos(Model model) {
         List<Projeto> projetos = service.listarTodos();
         model.addAttribute("projetos", projetos);
+
         return "projeto/lista";
     }
 
     @GetMapping("/novo")
     public String exibirFormularioCadastro(Model model) {
         model.addAttribute("projetoDTO", new ProjetoDTO());
-        model.addAttribute("pessoas", pessoaService.listarTodos());
+        model.addAttribute("gerentes", pessoaService.listarTodosGerentes());
         model.addAttribute("classificacoesRisco", ClassificacaoRisco.values());
         model.addAttribute("statusProjeto", StatusProjeto.values());
+
         return "projeto/form";
     }
 
     @GetMapping("/{id}")
-    public String exibirProjeto(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+    public String exibirProjeto(@PathVariable Long id, Model model) {
         Projeto projeto = service.buscarPorId(id);
-        List<Pessoa> pessoasDisponiveis = pessoaService.listarTodos();
+        List<Pessoa> pessoasDisponiveis = pessoaService.listarTodosFuncionarios();
         pessoasDisponiveis.removeAll(projeto.getMembros());
 
         model.addAttribute("projeto", projeto);
         model.addAttribute("pessoasDisponiveis", pessoasDisponiveis);
+
         return "projeto/detalhes";
     }
 
@@ -79,9 +83,10 @@ public class ProjetoController {
         Projeto projeto = service.buscarPorId(id);
         model.addAttribute("projetoID", projeto.getId());
         model.addAttribute("projetoDTO", new ProjetoDTO(projeto));
-        model.addAttribute("pessoas", pessoaService.listarTodos());
+        model.addAttribute("gerentes", pessoaService.listarTodosGerentes());
         model.addAttribute("classificacoesRisco", ClassificacaoRisco.values());
         model.addAttribute("statusProjeto", StatusProjeto.values());
+
         return "projeto/form";
     }
 
@@ -93,13 +98,8 @@ public class ProjetoController {
 
     @PostMapping("/{projetoId}/membro")
     public String adicionarMembroAoProjeto(@PathVariable Long projetoId, @RequestParam Long pessoaId, RedirectAttributes redirectAttributes) {
-        try {
-            service.adicionarMembroAoProjeto(projetoId, pessoaId);
-            redirectAttributes.addFlashAttribute("mensagemSucesso", "Membro adicionado ao projeto com sucesso!");
-
-        } catch (RuntimeException ex) {
-            redirectAttributes.addFlashAttribute("mensagemErro", ex.getMessage());
-        }
+        service.adicionarMembroAoProjeto(projetoId, pessoaId);
+        redirectAttributes.addFlashAttribute("mensagemSucesso", "Membro adicionado ao projeto com sucesso!");
 
         return "redirect:/projetos/" + projetoId;
     }
@@ -107,6 +107,7 @@ public class ProjetoController {
     @DeleteMapping("/{projetoId}/membro/{pessoaId}")
     public ResponseEntity<String> removerMembroProjeto(@PathVariable Long projetoId, @PathVariable Long pessoaId) {
         service.removerMembroProjeto(projetoId, pessoaId);
+
         return ResponseEntity.ok("Membro removido do projeto com sucesso!");
     }
 

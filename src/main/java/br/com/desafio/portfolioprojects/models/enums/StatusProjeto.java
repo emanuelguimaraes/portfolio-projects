@@ -1,12 +1,21 @@
 package br.com.desafio.portfolioprojects.models.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum StatusProjeto {
-    EM_ANALISE,
-    ANALISE_REALIZADA,
-    ANALISE_APROVADA,
-    INICIADO,
-    PLANEJADO,
-    EM_ANDAMENTO,
-    ENCERRADO,
-    CANCELADO
+    EM_ANALISE("Em Análise"),
+    ANALISE_REALIZADA("Análise Realizada"),
+    ANALISE_APROVADA("Análise Aprovada"),
+    INICIADO("Iniciado"),
+    PLANEJADO("Planejado"),
+    EM_ANDAMENTO("Em Andamento"),
+    ENCERRADO("Encerrado"),
+    CANCELADO("Cancelado");
+
+    private final String label;
+
+    StatusProjeto(String label) {
+        this.label = label;
+    }
 }

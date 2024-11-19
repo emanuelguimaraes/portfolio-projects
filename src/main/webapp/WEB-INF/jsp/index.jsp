@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio Projects</title>
     <link rel="stylesheet" href="<c:url value="/webjars/bootstrap/4.5.2/css/bootstrap.min.css"/>">
-    <%--<link rel="stylesheet" href="/css/style.css">--%>
+    <link rel="stylesheet" href="<c:url value="/static/css/style.css"/>"/>
 </head>
 <body>
 
@@ -54,9 +54,12 @@
     </div>
 </div>
 
+<footer class="bg-light py-3 text-center">
+    <p>© 2024 Portfolio Projects. Todos os direitos reservados.</p>
+</footer>
+
 <script src="<c:url value="/webjars/jquery/3.5.1/jquery.min.js"/>"></script>
 <script src="<c:url value="/webjars/popper.js/1.16.0/umd/popper.min.js"/>"></script>
 <script src="<c:url value="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"/>"></script>
-<%--<script src="/js/script.js"></script>--%>
 </body>
 </html>
