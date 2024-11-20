@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: portfolio_projects_db
+      POSTGRES_USER: portfolio_projects_user
+      POSTGRES_PASSWORD: portfolio_projects_password
+    ports:
+      - 5432:5432
+    volumes:
+      - db-portfolio-data:/var/lib/postgresql/data
+    networks:
+      - portfolio-network
+
+#  app:
+#    build:
+#      context: .
+#      dockerfile: .docker/Dockerfile
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      - DB_URL=jdbc:postgresql://db:5432/portfolio_projects_db
+#      - DB_USERNAME=portfolio_projects_user
+#      - DB_PASSWORD=portfolio_projects_password
+#    depends_on:
+#      - db
+#    networks:
+#      - portfolio-network
+
+volumes:
+  db-portfolio-data:
+
+networks:
+  portfolio-network:
+    driver: bridge
