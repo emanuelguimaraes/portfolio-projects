@@ -13,20 +13,20 @@ services:
     networks:
       - portfolio-network
 
-#  app:
-#    build:
-#      context: .
-#      dockerfile: .docker/Dockerfile
-#    ports:
-#      - "8080:8080"
-#    environment:
-#      - DB_URL=jdbc:postgresql://db:5432/portfolio_projects_db
-#      - DB_USERNAME=portfolio_projects_user
-#      - DB_PASSWORD=portfolio_projects_password
-#    depends_on:
-#      - db
-#    networks:
-#      - portfolio-network
+  app:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_URL=jdbc:postgresql://db:5432/portfolio_projects_db
+      - DB_USERNAME=portfolio_projects_user
+      - DB_PASSWORD=portfolio_projects_password
+    depends_on:
+      - db
+    networks:
+      - portfolio-network
 
 volumes:
   db-portfolio-data:
