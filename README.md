@@ -22,7 +22,7 @@ cd portfolio-projects
 
 3. Execute o comando *docker-compose up -d*
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 Isso irá construir a imagem Docker da aplicação e iniciar os containers necessários (aplicação e banco de dados PostgreSQL). A aplicação estará disponível em http://localhost:8080.
