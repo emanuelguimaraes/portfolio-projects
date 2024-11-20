@@ -7,59 +7,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio Projects</title>
-    <link rel="stylesheet" href="<c:url value="/webjars/bootstrap/4.5.2/css/bootstrap.min.css"/>">
+    <link rel="stylesheet" href="<c:url value="/webjars/bootstrap/5.3.3/css/bootstrap.min.css"/>">
     <link rel="stylesheet" href="<c:url value="/static/css/style.css"/>"/>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">Portfolio Projects</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="/projetos">Projetos</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/pessoas">Pessoas</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+<%@ include file="/WEB-INF/jsp/components/header.jsp" %>
 
 <div class="container mt-5">
-    <h1>Bem-vindo ao Portfolio Projects</h1>
-    <p>Este é o sistema de gerenciamento de portfólio de projetos.</p>
-    <div class="row mt-4">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Gerenciar Projetos</h5>
-                    <p class="card-text">Acesse a lista de projetos, crie novos projetos, edite e exclua projetos existentes.</p>
-                    <a href="/projetos" class="btn btn-primary">Gerenciar Projetos</a>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1>Bem-vindo ao Portfolio Projects</h1>
+            <p>Este é o sistema de gerenciamento de portfólio de projetos.</p>
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Gerenciar Projetos</h5>
+                            <p class="card-text">Acesse a lista de projetos, crie novos projetos, edite e exclua projetos existentes.</p>
+                            <a href="/projetos" class="btn btn-primary">Gerenciar Projetos</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Gerenciar Pessoas</h5>
-                    <p class="card-text">Acesse a lista de pessoas.</p>
-                    <a href="/pessoas" class="btn btn-primary">Gerenciar Pessoas</a>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Gerenciar Pessoas</h5>
+                            <p class="card-text">Acesse a lista de pessoas.</p>
+                            <a href="/pessoas" class="btn btn-primary">Gerenciar Pessoas</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<footer class="bg-light py-3 text-center">
-    <p>© 2024 Portfolio Projects. Todos os direitos reservados.</p>
-</footer>
+<%@ include file="/WEB-INF/jsp/components/footer.jsp" %>
 
-<script src="<c:url value="/webjars/jquery/3.5.1/jquery.min.js"/>"></script>
-<script src="<c:url value="/webjars/popper.js/1.16.0/umd/popper.min.js"/>"></script>
-<script src="<c:url value="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"/>"></script>
+<script src="<c:url value="/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js"/>"></script>
 </body>
 </html>

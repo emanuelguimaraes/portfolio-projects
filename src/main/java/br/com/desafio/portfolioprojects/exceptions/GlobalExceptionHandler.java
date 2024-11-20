@@ -1,52 +1,84 @@
 package br.com.desafio.portfolioprojects.exceptions;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ProjetoNaoPodeSerExcluidoException.class)
-    public ResponseEntity<String> handleProjetoNaoPodeSerExcluidoException(ProjetoNaoPodeSerExcluidoException ex) {
-        return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .body(ex.getMessage());
-    }
-
     @ExceptionHandler(PessoaNaoPodeSerAdicionadaAoProjetoException.class)
-    public ResponseEntity<String> handlePessoaNaoPodeSerAdicionadaAoProjetoException(PessoaNaoPodeSerAdicionadaAoProjetoException ex) {
-        return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .body(ex.getMessage());
+    public ModelAndView handlePessoaNaoPodeSerAdicionadaAoProjetoException(PessoaNaoPodeSerAdicionadaAoProjetoException ex) {
+        ModelAndView model = new ModelAndView("projeto/detalhes");
+        model.addObject("mensagemErro", ex.getMessage());
+        return model;
     }
 
     @ExceptionHandler(ProjetoNaoEncontradoException.class)
-    public ResponseEntity<String> handleProjetoNaoEncontradoException(ProjetoNaoEncontradoException ex) {
-        return ResponseEntity
-            .status(HttpStatus.NOT_FOUND)
-            .body(ex.getMessage());
+    public ModelAndView handleProjetoNaoEncontradoException(ProjetoNaoEncontradoException ex) {
+        ModelAndView model = new ModelAndView("error/error");
+        model.addObject("mensagemErro", ex.getMessage());
+        return model;
     }
 
     @ExceptionHandler(GerenteNaoEncontradoException.class)
-    public ResponseEntity<String> handleGerenteNaoEncontradoException(GerenteNaoEncontradoException ex) {
+    public ModelAndView handleGerenteNaoEncontradoException(GerenteNaoEncontradoException ex) {
+        ModelAndView model = new ModelAndView("projeto/form");
+        model.addObject("mensagemErro", ex.getMessage());
+        return model;
+    }
+
+    @ExceptionHandler(GerenteNaoPodeSerExcluidoException.class)
+    public ResponseEntity<Map<String, String>> handleGerenteNaoPodeSerExcluidoException(GerenteNaoPodeSerExcluidoException ex) {
         return ResponseEntity
-            .status(HttpStatus.NOT_FOUND)
-            .body(ex.getMessage());
+            .badRequest()
+            .body(Map.of("error", ex.getMessage()));
+    }
+
+    @ExceptionHandler(ProjetoNaoPodeSerExcluidoException.class)
+    public ResponseEntity<Map<String, String>> handleProjetoNaoPodeSerExcluidoException(ProjetoNaoPodeSerExcluidoException ex) {
+        return ResponseEntity
+            .badRequest()
+            .body(Map.of("error", ex.getMessage()));
     }
 
     @ExceptionHandler(PessoaNaoEncontradaException.class)
-    public ResponseEntity<String> handleGerenteNaoEncontradoException(PessoaNaoEncontradaException ex) {
+    public ResponseEntity<String> handlePessoaNaoEncontradaException(PessoaNaoEncontradaException ex) {
         return ResponseEntity
-            .status(HttpStatus.NOT_FOUND)
-            .body(ex.getMessage());
+            .notFound()
+            .build();
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> handleRuntimeException(Exception ex) {
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+        List<String> errors = ex.getBindingResult().getFieldErrors().stream()
+            .map(FieldError::getDefaultMessage)
+            .collect(Collectors.toList());
+
         return ResponseEntity
-            .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .body("Ocorreu um erro interno no servidor.");
+            .badRequest()
+            .body(errors);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return ResponseEntity
+            .badRequest()
+            .body(Map.of("error", "Atribuição inválida."));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleRuntimeException(Exception ex) {
+        ModelAndView model = new ModelAndView("error/error");
+        model.addObject("mensagemErro", "Ocorreu um erro interno no servidor. Detalhes: " + ex.getMessage());
+
+        return model;
     }
 }

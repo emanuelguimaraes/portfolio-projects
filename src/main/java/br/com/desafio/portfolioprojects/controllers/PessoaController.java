@@ -35,10 +35,9 @@ public class PessoaController {
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Pessoa> criarPessoa(@Valid @RequestBody PessoaDTO pessoaDTO) {
-        Pessoa novaPessoa = service.criarPessoaExterna(pessoaDTO);
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(novaPessoa);
+            .body(service.criarPessoaExterna(pessoaDTO));
     }
 
     @DeleteMapping("/{id}")

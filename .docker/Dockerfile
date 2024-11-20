@@ -7,10 +7,8 @@ FROM tomcat:9.0-jdk17
 
 WORKDIR /usr/local/tomcat
 
-RUN rm -rf webapps/*
-
 COPY --from=build /app/target/portfolio-projects.war webapps/portfolio-projects.war
 
 EXPOSE 8080
 
-CMD ["catalina.sh", "run"]
+ENTRYPOINT [ "sh", "-c", "java -jar /usr/local/tomcat/webapps/portfolio-projects.war" ]

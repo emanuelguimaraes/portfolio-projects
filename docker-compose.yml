@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   db:
     image: postgres:13
@@ -6,6 +5,7 @@ services:
       POSTGRES_DB: portfolio_projects_db
       POSTGRES_USER: portfolio_projects_user
       POSTGRES_PASSWORD: portfolio_projects_password
+    restart: always
     ports:
       - 5432:5432
     volumes:
@@ -17,6 +17,7 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile
+    restart: always
     ports:
       - "8080:8080"
     environment:
@@ -29,7 +30,7 @@ services:
       - portfolio-network
 
 volumes:
-  db-portfolio-data:
+  db-portfolio-data: {}
 
 networks:
   portfolio-network:

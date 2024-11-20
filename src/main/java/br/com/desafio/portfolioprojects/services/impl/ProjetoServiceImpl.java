@@ -53,6 +53,11 @@ public class ProjetoServiceImpl implements ProjetoService {
             throw new GerenteNaoEncontradoException("Gerente não encontrado com ID: " + projetoDTO.getGerenteId());
         }
 
+        if (projetoExistente.getGerente().getId() != projetoDTO.getGerenteId()) {
+            projetoExistente.removerMembro(projetoExistente.getGerente());
+            projetoExistente.adicionarMembro(gerente);
+        }
+
         projetoExistente.setNome(projetoDTO.getNome());
         projetoExistente.setDataInicio(projetoDTO.getDataInicio());
         projetoExistente.setPrevisaoTermino(projetoDTO.getPrevisaoTermino());
